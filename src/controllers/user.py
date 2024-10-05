@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify
 
+from .utils import check_user_authtorized
 from ..models_.models import User
 
 bp = Blueprint('user', __name__)
@@ -7,11 +8,12 @@ bp = Blueprint('user', __name__)
 
 @bp.route('/get-user-by-id', methods=['GET'])  # разные поля отдаются по-разному
 def get_user_by_id(user_id):
-    users = []
-    u = User()
-    users.append(u)
-    # Логика получения пользователя по ID
-    return jsonify({"user": users})
+    authtorized, user_id = check_user_authtorized()
+    if not authtorized:
+        return jsonify({"error": "user unauthtorized"}, 401)
+    user = db.session.execute(db.select(User).filter_by(user_id=user_id)).scalar_one()
+
+    return jsonify({"user": user}, 200)
 
 
 @bp.route('/get-users-by-project-id`', methods=['GET'])

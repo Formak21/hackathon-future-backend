@@ -13,12 +13,12 @@ bp = Blueprint('auth-reg', __name__)
 def auth_user():
     data = request.get_json()
     # check data
-    req_session_id = data.get('session_id')
+    req_session_id = request.cookies.get('session_id')
     if data.get('session_id'):
-        user = check_user_authtorized(req_session_id)
-        if user:
+        exist, resp_user_id = check_user_authtorized(req_session_id)
+        if exist:
             response = make_response(jsonify({"success": "User already authorized"}), 200)
-            response.headers.add("session_id", req_session_id)
+            response.set_cookie("session_id", req_session_id, samesite="lax", httponly=True)
 
             return response
 
@@ -44,7 +44,7 @@ def auth_user():
     # Логика создания нового пользователя
 
     response = make_response(jsonify({"success": "User authorized"}), 200)
-    response.headers.add("session_id", session_id)
+    response.set_cookie("session_id", req_session_id, samesite="lax", httponly=True)
 
     return response
 
@@ -93,7 +93,7 @@ def create_user():
     # Логика создания нового пользователя
 
     response = make_response(jsonify({"success": "User auth"}), 200)
-    response.headers.add("session_id", session_id)
+    response.set_cookie("session_id", session_id, samesite="lax", httponly=True)
 
     return response
 
@@ -101,7 +101,7 @@ def create_user():
 @bp.route('/logout', methods=['POST'])
 def logout_user():
     data = request.get_json()
-    session_id = data['session_id']
+    session_id = request.cookies.get('session_id')
     session = db.session.execute(db.select(Session).filter_by(session_id=session_id)).scalar_one()
 
     if session:
