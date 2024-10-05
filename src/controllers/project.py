@@ -1,13 +1,13 @@
 from flask import Blueprint, jsonify
 
-from ..models.models import Project
+from ..models.models import Project, ProjectShort
 
 bp = Blueprint('project', __name__)
 
 
-@bp.route('/get-all', methods=['GET'])
+@bp.route('/get-all-projects-with-preview', methods=['GET'])
 def get_all_projects():
-    p = Project()
+    p = ProjectShort()
     projects = []
     projects.append(p)
     # Логика получения пользователей
@@ -15,26 +15,20 @@ def get_all_projects():
 
 
 @bp.route('/get-project-by-id', methods=['GET'])
-def get_user():
+def get_project_by_id():
     p = Project()
     # Логика получения пользователей
     return jsonify({"project": p})
 
 
-@bp.route('/get-user-by-id', methods=['GET'])
-def get_user(user_id):
+@bp.route('/update`', methods=['PUT'])
+def update_poject(user_id):
     # Логика получения пользователя по ID
-    return jsonify({"user_id": user_id})
-
-
-@bp.route('/get`', methods=['GET'])
-def get_user(user_id):
-    # Логика получения пользователя по ID
-    return jsonify({"user_id": user_id})
+    return jsonify({"message": "Project updated"}), 201
 
 
 @bp.route('/', methods=['POST'])
-def create_user():
+def create_poject():
     # Логика создания нового пользователя
     return jsonify({"message": "User created"}), 201
 
