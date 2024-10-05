@@ -11,6 +11,7 @@ class User:
         self.email = ""
         self.role = ""
         self.info = ""
+        self.hashed_password = ""
 
 
 class Project:
