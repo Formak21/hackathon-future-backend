@@ -2,7 +2,7 @@ from src.controllers import user
 
 def configure_routes(app):
     app.register_blueprint(example_controller.bp, url_prefix='/example')
-    app.register_blueprint(user_controller.bp, url_prefix='/users')
+    app.register_blueprint(user.bp, url_prefix='/users')
     app.register_blueprint(product_controller.bp, url_prefix='/products')
     app.register_blueprint(order_controller.bp, url_prefix='/orders')
     app.register_blueprint(auth_controller.bp, url_prefix='/auth')
