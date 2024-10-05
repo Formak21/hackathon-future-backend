@@ -12,6 +12,7 @@ class User:
         self.role = ""
         self.info = ""
         self.hashed_password = ""
+        self.operators = "" # ?
 
 
 class Project:
