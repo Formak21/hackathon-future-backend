@@ -3,11 +3,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 
-from src.factory import app
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://user:pass@localhost:5434/dbtest"
 
 db = SQLAlchemy(app, model_class=DeclarativeBase)
 dbModel = db.Model
-
 
 @app.route("/")
 def hello_world():
@@ -16,8 +16,7 @@ def hello_world():
 
 if __name__ == "__main__":
 
-    from src.model.user import User
-    from src.model.session import Session
+    from src.model import User, Session
 
     with app.app_context():
         db.create_all()

@@ -1,4 +1,4 @@
-from src.factory import dbModel
+from src.main import dbModel
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 

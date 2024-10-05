@@ -1,4 +1,4 @@
-from src.factory import dbModel
+from src.main import dbModel
 from typing import List, Optional
 from sqlalchemy import String, ARRAY
 from sqlalchemy.orm import Mapped, mapped_column, relationship
