@@ -84,3 +84,8 @@ class Notification:
         self.type = ""
         self.data = ""
         self.user_id = 0
+
+class session:
+    def __init__(self):
+        self.session_id = "" # это уже UUID
+        self.user_id=""
