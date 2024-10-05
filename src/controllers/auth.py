@@ -2,8 +2,9 @@ import uuid
 import bcrypt
 from flask import Blueprint, jsonify, request, make_response
 
-from ..models.db import DB as db
-from ..models.models import session
+from .utils import check_user_authtorized
+from ..models_.db import DB as db
+from ..models_.models import session
 
 bp = Blueprint('auth-reg', __name__)
 
@@ -14,9 +15,9 @@ def auth_user():
     # check data
     req_session_id = data.get('session_id')
     if data.get('session_id'):
-        user = db.session.execute(db.select(Session).filter_by(session_id=req_session_id)).scalar_one()
+        user = check_user_authtorized(req_session_id)
         if user:
-            response = make_response(jsonify({"success": "User auth"}), 200)
+            response = make_response(jsonify({"success": "User already authorized"}), 200)
             response.headers.add("session_id", req_session_id)
 
             return response
@@ -42,7 +43,7 @@ def auth_user():
     db.session.commit()
     # Логика создания нового пользователя
 
-    response = make_response(jsonify({"success": "User auth"}), 200)
+    response = make_response(jsonify({"success": "User authorized"}), 200)
     response.headers.add("session_id", session_id)
 
     return response
@@ -87,7 +88,7 @@ def create_user():
 
     session_id = str(uuid.UUID)
 
-    db.session.add(Session(user_id=user_id, session_id=session_id))
+    db.session.add(Session(user_id=user.id, session_id=session_id))
     db.session.commit()
     # Логика создания нового пользователя
 
