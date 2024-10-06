@@ -4,3 +4,5 @@ from model.project import Project, UserProjectAssociation
 from model.feed import Feed
 from model.chat import Chat
 from model.message import Message
+from model.bid import Bid
+

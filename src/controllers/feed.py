@@ -43,10 +43,11 @@ def get_feed_by_id(feed_id):
 
     user = db.session.execute(db.select(User).filter_by(id=f.user_id)).scalar_one()
     ext_feed = {
+        "id": f.id,
         "title": f.title,
-        "format": f.format,
-        "text": f.text,
-        "url_for_preview": f.url_for_preview,
+        "content": f.text,
+        "author_id": f.user_id,
+        "preview_url": f.url_for_preview,
         "tags": f.tags,
         "author": user.first_name + ' ' + user.last_name
     }

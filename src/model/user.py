@@ -33,3 +33,5 @@ class User(db.Model):
     feed: Mapped["Feed"] = relationship(back_populates="user")
 
     messages: Mapped[List["Message"]] = relationship(back_populates='user')
+
+    bids: Mapped[List["Bids"]] = relationship(back_populates='user')
