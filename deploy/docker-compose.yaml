@@ -13,7 +13,7 @@ services:
     networks:
       - internal-back
   app:
-    container_name: "deploy_app_1"
+    container_name: "deploy-app-1"
     build:
       context: ./../
       dockerfile: Dockerfile
