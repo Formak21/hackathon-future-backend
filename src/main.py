@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
-from src.factory import app, Base, db
-from src.controllers import user, auth
+from factory import app, Base, db
+from controllers import user, auth
 
 
 if __name__ == "__main__":
 
     with app.app_context():
-        from src.model import User, Session
+        from model import User, Session
 
         db.create_all()
 

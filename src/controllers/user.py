@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, make_response
 
-from ..model import User, Session
-from ..main import db
+from model import User, Session
+from factory import db
 bp = Blueprint('user', __name__)
 
 

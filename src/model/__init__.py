@@ -1,2 +1,2 @@
-from src.model.session import Session
-from src.model.user import User
+from model.session import Session
+from model.user import User

@@ -3,7 +3,7 @@ from typing import List, Optional
 from sqlalchemy import String, ARRAY
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.factory import dbModel
+from factory import dbModel
 
 
 class User(dbModel):

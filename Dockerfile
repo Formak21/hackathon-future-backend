@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:3.11
 
 RUN apt update -y && \
     apt install -y git python3-pip
@@ -8,8 +8,12 @@ WORKDIR /app
 
 COPY . .
 
+RUN rm -rf .venv
+RUN python -m venv .venv
+RUN bash .venv/bin/activate
+
 COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-CMD ["python3.12", "./src/main.py"]
+CMD ["python3", "src/main.py"]

@@ -2,9 +2,9 @@ import uuid
 import bcrypt
 from flask import Blueprint, jsonify, request, make_response
 
-from .utils import check_user_authtorized
-from ..model import User, Session
-from ..main import db
+from controllers.utils import check_user_authtorized
+from model import User, Session
+from factory import db
 bp = Blueprint('auth-reg', __name__)
 
 
