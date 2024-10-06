@@ -15,4 +15,4 @@ if __name__ == "__main__":
 
     app.register_blueprint(auth.bp, url_prefix='/auth')
     app.register_blueprint(user.bp, url_prefix='/user')
-    app.run(port=5000)
+    app.run(port=5000, host="0.0.0.0")
