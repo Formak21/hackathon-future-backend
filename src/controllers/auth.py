@@ -59,7 +59,7 @@ def create_user():
     last_name = data.get('last_name')
     email = data.get('email')
     password = data.get('password')
-    role = "org"
+    role = "activist"
 
     if not data.get('mid_name'):
         mid_name = "нету"

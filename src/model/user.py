@@ -16,7 +16,7 @@ class User(dbModel):
     first_name: Mapped[str] = mapped_column(String)
     mid_name: Mapped[Optional[str]] = mapped_column(String)
     last_name: Mapped[str] = mapped_column(String)
-
+    phone: Mapped[str] = mapped_column(String)
     photo_url: Mapped[str] = mapped_column(String)
 
     role: Mapped[str] = mapped_column(String)

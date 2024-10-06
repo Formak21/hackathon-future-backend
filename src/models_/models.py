@@ -15,23 +15,23 @@
 #         self.operators = "" # ?
 #
 #
-# class Project:
-#     def __init__(self):
-#         self.id = 0
-#         self.title = ""
-#         self.head = []  # list of Users
-#         self.orgs = []  # list of Users
-#         self.experts = []  # list of Users
-#         self.volonteers = []  # list of Users
-#         self.short_info = ""
-#         self.goals = ""
-#         self.contacts = ""
-#         self.requirements = ""
-#         self.tags = []  # list of strings
-#         self.region = ""
-#         self.format = ""
-#         self.url_for_preview = ""
-#         self.docs = []
+class Project:
+    def __init__(self):
+        self.id = 0
+        self.title = ""
+        self.head = []  # list of Users
+        self.orgs = []  # list of Users
+        self.experts = []  # list of Users
+        self.volonteers = []  # list of Users
+        self.short_info = ""
+        self.goals = ""
+        self.contacts = ""
+        self.requirements = ""
+        self.tags = []  # list of strings
+        self.region = ""
+        self.format = ""
+        self.url_for_preview = ""
+        self.docs = []
 #
 #
 # class ProjectShort:

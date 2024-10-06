@@ -6,3 +6,5 @@ def check_user_authtorized(req_session_id):
     if session == None:
         return False, None
     return True, session.user_id
+
+

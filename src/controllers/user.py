@@ -21,7 +21,8 @@ def get_user():
         "email":user.email,
         "role":user.role,
         "info":user.info,
-        "tags":user.tags
+        "tags":user.tags,
+        "phone":user.phone
     }
 
     return make_response(jsonify(resp_user), 200)
