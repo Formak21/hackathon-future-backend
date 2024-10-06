@@ -4,12 +4,10 @@ from factory import app, db
 from controllers import user, auth
 
 if __name__ == "__main__":
-
     with app.app_context():
-        from model import User, Session
+        from model import User, Session, Project, UserProjectAssociation
 
         db.create_all()
-
         db.session.commit()
 
     app.register_blueprint(auth.bp, url_prefix='/api/auth')
