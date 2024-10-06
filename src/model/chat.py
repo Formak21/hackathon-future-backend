@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from factory import db
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -7,9 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 class Chat(db.Model):
     __tablename__ = "chat"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey('user.id'), primary_key=True)
-
+    id: Mapped[int] = mapped_column(primary_key=True, unique=True)
     title: Mapped[Optional[str]] = mapped_column(String)
 
-    user: Mapped["User"] = relationship(back_populates='chats')
+    messages: Mapped[List["Message"]] = relationship(back_populates='chat')
