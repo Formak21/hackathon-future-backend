@@ -24,20 +24,20 @@ def get_all_feed():
 
 
 @bp.route('/get-feed-by-id', methods=['GET'])
-def get_project_by_id():
+def get_feed_by_id():
     p = Project()
     # Логика получения пользователей
     return jsonify({"project": p})
 
 
 @bp.route('/update`', methods=['PUT'])
-def update_poject(user_id):
+def update_feed(user_id):
     # Логика получения пользователя по ID
     return jsonify({"message": "Project updated"}), 201
 
 
 @bp.route('/', methods=['POST'])
-def create_poject():
+def create_feed():
     # Логика создания нового пользователя
     return jsonify({"message": "User created"}), 201
 

@@ -10,7 +10,8 @@ def get_all_projects():
     req_session_id = request.cookies.get('session_id')
     authorized, user_id = __check_user_authtorized(req_session_id)
     if not authorized:
-        return jsonify({"error": "user authorized"}, 401)
+        return __jsonResponse("user authorized", 401)
+
     user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one()
 
     user_role = user.role
@@ -25,8 +26,7 @@ def get_all_projects():
         "url_for_preview": proj.url_for_preview,
         "format": proj.format
     }, projects))
-
-    return jsonify({"projects": projects, "my_role": user_role}, 200)
+    return __jsonResponse({"projects": projects, "my_role": user_role}, 200)
     # Логика получения пользователей
     # return jsonify({"projects": projects})
 
@@ -36,7 +36,7 @@ def get_project_by_id(project_id):
     req_session_id = request.cookies.get('session_id')
     authorized, user_id = __check_user_authtorized(req_session_id)
     if not authorized:
-        return jsonify({"error": "user unauthorized"}, 401)
+        return __jsonResponse("user unauthorized", 401)
     user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one()
 
     project = db.session.execute(db.select(Project).filter_by(id=project_id).scalar_one())
@@ -59,7 +59,7 @@ def get_project_by_id(project_id):
             head_users = list(
                 map(lambda user: db.session.execute(db.select(User).filter_by(id=user.id)).scalar_one(), pr_user_role))
             data[role] = head_users
-        return jsonify(data, 200)
+        return __jsonResponse(data, 200)
 
 
     if user_role == "expert":
@@ -82,8 +82,7 @@ def get_project_by_id(project_id):
             "format": proj.format
         }, project))
         data["project"] = resp_projects
-
-        return jsonify(data, 200)
+        return __jsonResponse(data, 200)
 
     if user_role == "volonteer":
         resp_projects = list(map(lambda proj: {
@@ -96,7 +95,7 @@ def get_project_by_id(project_id):
             "format": proj.format
         }, project))
         data["project"] = resp_projects
-        return jsonify(data, 200)
+        return __jsonResponse(data, 201)
 
     if user_role == "head":
         pr_role = pr_role = ["head", "activist", "expert", "partners", "volonteer"]
@@ -107,7 +106,7 @@ def get_project_by_id(project_id):
             head_users = list(
                 map(lambda user: db.session.execute(db.select(User).filter_by(id=user.id)).scalar_one(), pr_user_role))
             data[role] = head_users
-        return jsonify(data, 200)
+        return __jsonResponse(data, 200)
 
     resp_projects = list(map(lambda proj: {
         "id": proj.id,
@@ -119,7 +118,7 @@ def get_project_by_id(project_id):
         "format": proj.format
     }, project))
     data["project"] = resp_projects
-    return jsonify(data, 200)
+    return __jsonResponse(data, 200)
 
 
 @bp.route('/`', methods=['PUT'])
@@ -133,13 +132,13 @@ def update_poject():
     authorized, user_id = __check_user_authtorized(req_session_id)
 
     if not authorized:
-        return jsonify({"error": "user unauthorized"}, 401)
+        return __jsonResponse("user unauthorized", 401)
     user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one()
 
     pr_user_role = db.session.execute(db.select(UserProjectAssociation).filter_by(prokect_id=project_id,
                                                                                   user_id=user.id).scalar_one())
     if pr_user_role.role != "head":
-        return jsonify({"message": "to update project you must ITS HEAD"}, 403)
+        return __jsonResponse("to update project you must ITS HEAD", 403)
 
     project = db.session.execute(db.select(Project).filter_by(id=project_id)).scalar_one()
 
@@ -156,8 +155,7 @@ def update_poject():
     project.docs = data.get("docs") or project.docs
 
     db.commit()
-
-    return jsonify({"success": "project updated"}, 200)
+    return __jsonResponse("project updated", 200)
 
 
 @bp.route('/my', methods=['POST'])
@@ -168,7 +166,7 @@ def get_my_projects():
     authorized, user_id = __check_user_authtorized(req_session_id)
 
     if not authorized:
-        return jsonify({"error": "user unauthorized"}, 401)
+        return __jsonResponse("user unauthorized", 401)
 
     user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one()
 
@@ -178,7 +176,7 @@ def get_my_projects():
         pr_user_role = None
 
     if not pr_user_role:
-        return jsonify({"projects": []}), 201
+        return __jsonResponse({"projects": []}, 200)
     data = {}
     projects = []
 
@@ -196,7 +194,7 @@ def get_my_projects():
         }
         projects.append(resp_proj)
     data["project"] = projects
-    return jsonify(data, 200)
+    return __jsonResponse(data, 200)
 
 def __check_user_authtorized(req_session_id):
     try:
