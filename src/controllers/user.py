@@ -5,12 +5,12 @@ from factory import db
 bp = Blueprint('user', __name__)
 
 
-@bp.route('/get', methods=['GET'])  # разные поля отдаются по-разному
+@bp.route('/', methods=['GET'])  # разные поля отдаются по-разному
 def get_user():
     req_session_id = request.cookies.get('session_id')
     authorized, user_id = __check_user_authtorized(req_session_id)
     if not authorized:
-        return jsonify({"error": "user unauthorized"}, 401)
+        return __jsonResponse("user unauthorized", 401)
     user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one()
     resp_user = {
         "id":user.id,
@@ -24,8 +24,8 @@ def get_user():
         "tags":user.tags,
         "phone":user.phone
     }
-
-    return make_response(jsonify(resp_user), 200)
+    return __jsonResponse(resp_user, 200)
+    # return make_response(jsonify(resp_user), 200)
 
     # project = user = db.session.execute(db.select(Project).filter_by(id=project_id)).scalar_one()
 
@@ -156,3 +156,9 @@ def __check_user_authtorized(req_session_id):
         return False, None
 
     return True, session.user_id
+
+def __jsonResponse(resp: dict or str, code: int):
+    if isinstance(resp, str):
+        resp = {"info": resp}
+
+    return make_response(jsonify(resp), code)

@@ -1,5 +1,5 @@
 from factory import db
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, make_response
 from model import User, Session, Project, UserProjectAssociation
 
 bp = Blueprint('project', __name__)
@@ -205,3 +205,9 @@ def __check_user_authtorized(req_session_id):
         return False, None
 
     return True, session.user_id
+
+def __jsonResponse(resp: dict or str, code: int):
+    if isinstance(resp, str):
+        resp = {"info": resp}
+
+    return make_response(jsonify(resp), code)

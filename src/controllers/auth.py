@@ -66,20 +66,20 @@ def create_user():
         mid_name = "нету"
 
     if not data.get('first_name'):
-        return jsonify({"error": "first_name is required"}, 400)
+        return __jsonResponse("first_name is required", 400)
 
     if not data.get('last_name'):
-        return jsonify({"error": "last_name is required"}, 400)
+        return __jsonResponse("last_name is required", 400)
 
     if not data.get('email'):
-        return jsonify({"error": "Email is required"}, 400)
+        return __jsonResponse("Email is required", 400)
 
     if not data.get('phone'):
-        return jsonify({"error": "Email is required"}, 400)
+        return __jsonResponse("Email is required", 400)
 
 
     if not data.get('password'):
-        return jsonify({"error": "Password is required"}, 400)
+        return __jsonResponse("Password is required", 400)
 
     try:
         user = db.session.execute(db.select(User).filter_by(email=email)).scalar_one()
@@ -88,7 +88,7 @@ def create_user():
         print("полный газ")
 
     if user:
-        return jsonify({"error": "Email HAVE TO BE Unique"}, 409)
+        return __jsonResponse("Email HAVE TO BE Unique", 409)
 
     hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
@@ -118,7 +118,7 @@ def logout_user():
     session = db.session.execute(db.select(Session).filter_by(session_id=session_id)).scalar_one()
 
     if not session:
-        return jsonify({"error": "Session does not exist"}, 400)
+        return __jsonResponse("Session does not exist", 400)
 
     db.session.delete(session)
     db.session.commit()
@@ -134,3 +134,9 @@ def __check_user_authtorized(req_session_id):
         return False, None
 
     return True, session.user_id
+
+def __jsonResponse(resp: dict or str, code: int):
+    if isinstance(resp, str):
+        resp = {"info": resp}
+
+    return make_response(jsonify(resp), code)
