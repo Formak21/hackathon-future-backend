@@ -6,7 +6,7 @@ from controllers import user, auth, project
 if __name__ == "__main__":
 
     with app.app_context():
-        from model import User, Session
+        from model import User, Session, Project, UserProjectAssociation
 
         db.create_all()
 

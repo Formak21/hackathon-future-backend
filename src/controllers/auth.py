@@ -58,7 +58,9 @@ def create_user():
     last_name = data.get('last_name')
     email = data.get('email')
     password = data.get('password')
+    phone = data.get('phone')
     role = "activist"
+
 
     if not data.get('mid_name'):
         mid_name = "нету"
@@ -71,6 +73,10 @@ def create_user():
 
     if not data.get('email'):
         return jsonify({"error": "Email is required"}, 400)
+
+    if not data.get('phone'):
+        return jsonify({"error": "Email is required"}, 400)
+
 
     if not data.get('password'):
         return jsonify({"error": "Password is required"}, 400)
@@ -89,7 +95,7 @@ def create_user():
     user = User(first_name=first_name, mid_name=mid_name,
                         last_name=last_name, email=email,
                         hashed_password=(hashed_password.decode('utf-8')), role=role, info="",
-                        tags=[], photo_url=photo_url)
+                        tags=[], photo_url=photo_url, phone=phone)
     db.session.add(user)
     db.session.commit()
 
@@ -122,7 +128,9 @@ def logout_user():
     return response
 
 def __check_user_authtorized(req_session_id):
-    session = db.session.execute(db.select(Session).filter_by(session_id=req_session_id)).scalar_one()
-    if session == None:
+    try:
+        session = db.session.execute(db.select(Session).filter_by(session_id=req_session_id)).scalar_one()
+    except:
         return False, None
+
     return True, session.user_id

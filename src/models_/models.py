@@ -66,8 +66,8 @@ class Project:
 # class Chat:
 #     def __init__(self):
 #         self.id = 0
-#         self.first_user = 0
-#         self.second_user = 0
+#         self.first_user_id = 0
+#         self.second_user_id = 0
 #
 #
 # class Message:

@@ -150,7 +150,9 @@ def update_user():
 # Другие маршруты для пользователя (например, обновление, удаление и т.д.)
 
 def __check_user_authtorized(req_session_id):
-    session = db.session.execute(db.select(Session).filter_by(session_id=req_session_id)).scalar_one()
-    if session == None:
+    try:
+        session = db.session.execute(db.select(Session).filter_by(session_id=req_session_id)).scalar_one()
+    except:
         return False, None
+
     return True, session.user_id
