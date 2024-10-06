@@ -1,20 +1,31 @@
 #version: '3.8'
 
 services:
-    database:
-        container_name: "psql_cont"
-        image: postgres:15.4-alpine
-        env_file:
-            - ./db.env
-#        volumes:
-#            - ./db-data:/var/lib/postgresql/data
-        ports:
-            - "5434:5432"
-        networks:
-            - internal-back
+  database:
+    container_name: "psql_cont"
+    image: postgres:15.4-alpine
+    env_file:
+      - ./db.env
+    #        volumes:
+    #            - ./db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - internal-back
+  app:
+    container_name: "deploy_app_1"
+    build:
+      context: ./../
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "2005:2005"
+    networks:
+      - front-back
+      - internal-back
 
 networks:
-    front-back:
-        name: front-back
-    internal-back:
-        name: internal-back
+  front-back:
+    name: front-back
+  internal-back:
+    name: internal-back
