@@ -29,13 +29,14 @@ def auth_user():
 
     if not data.get('password'):
         return jsonify({"error": "Password is required"}, 400)
-
-    user = db.session.execute(db.select(User).filter_by(email=email)).scalar_one()  # вот тут нам надо чтобы мы чекали хэши!!! TODO
-
+    try:
+        user = db.session.execute(db.select(User).filter_by(email=email)).scalar_one()  # вот тут нам надо чтобы мы чекали хэши!!! TODO
+    except:
+        return jsonify({"error": "user with this email does not exist"}, 403)
     correct = bcrypt.checkpw(password.encode(), user.hashed_password.encode())
 
     if not correct:
-        return jsonify({"error": "Password or Email is wrong"}, 400)
+        return jsonify({"error": "Password or Email is wrong"}, 403)
     session_id = str(uuid.uuid1())
 
     db.session.add(Session(user_id=user.id, session_id=session_id))
@@ -52,6 +53,7 @@ def auth_user():
 def create_user():
     data = request.get_json()
     # check data
+    photo_url = ""
     first_name = data.get('first_name')
     mid_name = data.get('mid_name')
     last_name = data.get('last_name')
@@ -81,13 +83,14 @@ def create_user():
         print("полный газ")
 
     if user:
-        return jsonify({"error": "Email HAVE TO BE Unique"}, 400)
+        return jsonify({"error": "Email HAVE TO BE Unique"}, 409)
 
     hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
     user = User(first_name=first_name, mid_name=mid_name,
                         last_name=last_name, email=email,
-                        hashed_password=(hashed_password.decode('utf-8')), role=role, info="", tags=[])
+                        hashed_password=(hashed_password.decode('utf-8')), role=role, info="",
+                        tags=[], photo_url=photo_url)
     db.session.add(user)
     db.session.commit()
 

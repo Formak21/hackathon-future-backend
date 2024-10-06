@@ -1,7 +1,9 @@
-from src.factory import dbModel
 from typing import List, Optional
+
 from sqlalchemy import String, ARRAY
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from src.factory import dbModel
 
 
 class User(dbModel):
@@ -14,6 +16,8 @@ class User(dbModel):
     first_name: Mapped[str] = mapped_column(String)
     mid_name: Mapped[Optional[str]] = mapped_column(String)
     last_name: Mapped[str] = mapped_column(String)
+
+    photo_url: Mapped[str] = mapped_column(String)
 
     role: Mapped[str] = mapped_column(String)
 
