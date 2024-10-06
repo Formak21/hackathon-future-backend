@@ -127,7 +127,7 @@ def set_user_avatar():
 #     return jsonify({"volonteers": users}), 200
 #
 
-@bp.route('/update-user', methods=['PUT'])
+@bp.route('/', methods=['PUT'])
 def update_user():
     data = request.get_json()
     req_session_id = request.cookies.get('session_id')
