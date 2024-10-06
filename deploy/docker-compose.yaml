@@ -19,7 +19,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "2005:2005"
+      - "5000:5000"
     networks:
       - front-back
       - internal-back
