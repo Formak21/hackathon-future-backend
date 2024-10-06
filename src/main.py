@@ -3,22 +3,14 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 
-from src.factory import app
-
-db = SQLAlchemy(app, model_class=DeclarativeBase)
-dbModel = db.Model
-
-
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
-
+from src.factory import app, Base, db
 
 if __name__ == "__main__":
 
-    from src.model import User, Session
 
     with app.app_context():
+        from src.model.user import User
+        from src.model.session import Session
         db.create_all()
 
         db.session.commit()
