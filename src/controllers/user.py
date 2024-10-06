@@ -8,7 +8,7 @@ bp = Blueprint('user', __name__)
 @bp.route('/get', methods=['GET'])  # разные поля отдаются по-разному
 def get_user():
     req_session_id = request.cookies.get('session_id')
-    authorized, user_id = check_user_authtorized(req_session_id)
+    authorized, user_id = __check_user_authtorized(req_session_id)
     if not authorized:
         return jsonify({"error": "user unauthorized"}, 401)
     user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one()
@@ -36,7 +36,7 @@ def get_user():
 @bp.route('/get-user/<int:search_user_id>', methods=['GET'])  # разные поля отдаются по-разному
 def get_user_by_id(search_user_id):
     req_session_id = request.cookies.get('session_id')
-    authorized, user_id = check_user_authtorized(req_session_id)
+    authorized, user_id = __check_user_authtorized(req_session_id)
     if not authorized:
         return jsonify({"error": "user authorized"}, 401)
     user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one()
@@ -69,7 +69,7 @@ def get_user_by_id(search_user_id):
 def set_user_avatar():
     data = request.get_json()
     req_session_id = request.cookies.get('session_id')
-    authorized, user_id = check_user_authtorized(req_session_id)
+    authorized, user_id = __check_user_authtorized(req_session_id)
     if not authorized:
         return jsonify({"error": "user unauthorized"}, 401)
     user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one()
@@ -112,7 +112,7 @@ def set_user_avatar():
 # def get_user(project_id):
 #     data = request.get_json()
 #
-#     authtorized, user_id = check_user_authtorized()
+#     authtorized, user_id = __check_user_authtorized()
 #     if not authtorized:
 #         return jsonify({"error": "user unauthtorized"}, 401)
 #
@@ -131,7 +131,7 @@ def set_user_avatar():
 def update_user():
     data = request.get_json()
     req_session_id = request.cookies.get('session_id')
-    authorized, user_id = check_user_authtorized(req_session_id)
+    authorized, user_id = __check_user_authtorized(req_session_id)
     if not authorized:
         return jsonify({"error": "user unauthorized"}, 401)
     user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one()
@@ -149,7 +149,7 @@ def update_user():
 
 # Другие маршруты для пользователя (например, обновление, удаление и т.д.)
 
-def check_user_authtorized(req_session_id):
+def __check_user_authtorized(req_session_id):
     session = db.session.execute(db.select(Session).filter_by(session_id=req_session_id)).scalar_one()
     if session == None:
         return False, None

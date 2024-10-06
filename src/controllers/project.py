@@ -2,7 +2,6 @@ import uuid
 import bcrypt
 from flask import Blueprint, jsonify, request, make_response
 
-from controllers.utils import check_user_authtorized
 from model import User, Session
 from ..factory import db
 bp = Blueprint('project', __name__)
@@ -11,7 +10,7 @@ bp = Blueprint('project', __name__)
 @bp.route('/get-all-projects-with-preview', methods=['GET'])
 def get_all_projects():
     req_session_id = request.cookies.get('session_id')
-    authorized, user_id = check_user_authtorized(req_session_id)
+    authorized, user_id = __check_user_authtorized(req_session_id)
     if not authorized:
         return jsonify({"error": "user authorized"}, 401)
     user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one()
@@ -35,7 +34,7 @@ def get_all_projects():
 @bp.route('/get-project-by-id<int:project_id>', methods=['GET'])
 def get_project_by_id(project_id):
     req_session_id = request.cookies.get('session_id')
-    authorized, user_id = check_user_authtorized(req_session_id)
+    authorized, user_id = __check_user_authtorized(req_session_id)
     if not authorized:
         return jsonify({"error": "user unauthorized"}, 401)
     user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one()
@@ -86,3 +85,10 @@ def create_poject():
     return jsonify({"message": "User created"}), 201
 
 # Другие маршруты для пользователя (например, обновление, удаление и т.д.)
+
+def __check_user_authtorized(req_session_id):
+    session = db.session.execute(db.select(Session).filter_by(session_id=req_session_id)).scalar_one()
+    if session == None:
+        return False, None
+    return True, session.user_id
+

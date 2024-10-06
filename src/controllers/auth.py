@@ -2,7 +2,6 @@ import uuid
 import bcrypt
 from flask import Blueprint, jsonify, request, make_response
 
-from controllers.utils import check_user_authtorized
 from model import User, Session
 from factory import db
 bp = Blueprint('auth-reg', __name__)
@@ -14,7 +13,7 @@ def auth_user():
     # check data
     req_session_id = request.cookies.get('session_id')
     if data.get('session_id'):
-        exist, resp_user_id = check_user_authtorized(req_session_id)
+        exist, resp_user_id = __check_user_authtorized(req_session_id)
         if exist:
             response = make_response(jsonify({"success": "User already authorized"}), 200)
             response.set_cookie("session_id", req_session_id, samesite="lax", httponly=True)
@@ -121,3 +120,9 @@ def logout_user():
     response = make_response(jsonify({"success": "User is logout"}), 200)
 
     return response
+
+def __check_user_authtorized(req_session_id):
+    session = db.session.execute(db.select(Session).filter_by(session_id=req_session_id)).scalar_one()
+    if session == None:
+        return False, None
+    return True, session.user_id
