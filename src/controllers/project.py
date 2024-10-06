@@ -51,11 +51,11 @@ def get_project_by_id(project_id):
     data["your_role"] = user_role
 
     if user_role == "org":
-        return jsonify({"project": project, }, 200)
+        return jsonify({"project": project}, 200)
     if user_role == "expert":
-        return jsonify({"project": project, }, 200)
+        return jsonify({"project": project}, 200)
     if user_role == "volonteer":
-        return jsonify({"project": project, }, 200)
+        return jsonify({"project": project}, 200)
     if user_role == "head":
         pr_role = ["head", "activist", "expert", "partners"]
 
@@ -66,12 +66,12 @@ def get_project_by_id(project_id):
                 map(lambda user: db.session.execute(db.select(User).filter_by(id=user.id)).scalar_one(), pr_user_role))
             data[role]=head_users
 
-        return jsonify({"project":project, }, 200)
+        return jsonify({"project":project}, 200)
 
 
     # guest
 
-    return jsonify({"project": p}, 200)
+    return jsonify({"project":project}, 200)
 
 
 @bp.route('/update`', methods=['PUT'])
@@ -80,7 +80,7 @@ def update_poject(user_id):
     return jsonify({"message": "Project updated"}), 201
 
 
-@bp.route('/', methods=['POST'])
+@bp.route('/my', methods=['POST'])
 def create_poject():
     # Логика создания нового пользователя
     return jsonify({"message": "User created"}), 201
