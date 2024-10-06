@@ -16,7 +16,7 @@ class User(db.Model):
     mid_name: Mapped[Optional[str]] = mapped_column(String)
     last_name: Mapped[str] = mapped_column(String)
     phone: Mapped[str] = mapped_column(String)
-    photo_url: Mapped[str] = mapped_column(String)
+    photo_url: Mapped[Optional[str]] = mapped_column(String)
 
     role: Mapped[str] = mapped_column(String)
 
@@ -26,4 +26,6 @@ class User(db.Model):
 
     session: Mapped["Session"] = relationship(back_populates="user")
 
-    projects: Mapped["UserProjectAssociation"] = relationship(back_populates='user')
+    projects: Mapped[List["UserProjectAssociation"]] = relationship(back_populates='user')
+
+    chats: Mapped[List["Chat"]] = relationship(back_populates='user')

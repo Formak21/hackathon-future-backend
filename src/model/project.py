@@ -34,4 +34,6 @@ class Project(db.Model):
     tags: Mapped[List[str]] = mapped_column(ARRAY(String))
     docs: Mapped[List[str]] = mapped_column(ARRAY(String))
 
-    users: Mapped["UserProjectAssociation"] = relationship(back_populates='project')
+    users: Mapped[List["UserProjectAssociation"]] = relationship(back_populates='project')
+
+    feed: Mapped["Feed"] = relationship(back_populates="project")

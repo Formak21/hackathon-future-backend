@@ -3,3 +3,4 @@
 .venv
 __pycache__
 db_files
+debug_texts.py
