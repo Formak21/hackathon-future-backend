@@ -4,6 +4,18 @@ from sqlalchemy import String, ForeignKey, ARRAY
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
+class UserProjectAssociation(db.Model):
+    __tablename__ = "user_project_association"
+
+    user_id: Mapped[int] = mapped_column(ForeignKey('user.id'), primary_key=True)
+    project_id: Mapped[int] = mapped_column(ForeignKey('project.id'), primary_key=True)
+
+    role: Mapped[str] = mapped_column(String)
+
+    user: Mapped["User"] = relationship(back_populates='projects')
+    project: Mapped["Project"] = relationship(back_populates='users')
+
+
 class Project(db.Model):
     __tablename__ = "project"
 
@@ -22,7 +34,4 @@ class Project(db.Model):
     tags: Mapped[List[str]] = mapped_column(ARRAY(String))
     docs: Mapped[List[str]] = mapped_column(ARRAY(String))
 
-    head: Mapped["User"] = relationship(back_populates="user")
-
-
-
+    users: Mapped["UserProjectAssociation"] = relationship(back_populates='projects')

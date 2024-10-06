@@ -22,3 +22,5 @@ class User(db.Model):
     tags: Mapped[List[str]] = mapped_column(ARRAY(String))
 
     session: Mapped["Session"] = relationship(back_populates="user")
+
+    projects: Mapped["UserProjectAssociation"] = relationship(back_populates='users')
