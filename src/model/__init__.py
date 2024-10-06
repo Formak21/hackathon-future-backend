@@ -1,3 +1,3 @@
-from src.model.user import User
-from src.model.session import Session
-from src.model.project import Project, UserProjectAssociation
+from model.user import User
+from model.session import Session
+from model.project import Project, UserProjectAssociation

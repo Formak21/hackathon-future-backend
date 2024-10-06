@@ -1,5 +1,5 @@
 from typing import List, Optional
-from src.factory import db
+from factory import db
 from sqlalchemy import String, ForeignKey, ARRAY
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 

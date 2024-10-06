@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM python:3.12
 
 RUN apt update -y && \
     apt install -y git python3-pip
