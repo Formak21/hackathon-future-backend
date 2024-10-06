@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 from src.factory import app, Base, db
+from src.controllers import user, auth
+
 
 if __name__ == "__main__":
 
@@ -11,7 +13,6 @@ if __name__ == "__main__":
 
         db.session.commit()
 
-        users = db.session.scalars(db.select(User))
-
-        for user in users:
-            print(user)
+    app.register_blueprint(auth.bp, url_prefix='/auth')
+    app.register_blueprint(user.bp, url_prefix='/user')
+    app.run()
