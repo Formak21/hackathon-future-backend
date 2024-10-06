@@ -3,7 +3,7 @@ import bcrypt
 from flask import Blueprint, jsonify, request, make_response
 
 from model import User, Session
-from ..factory import db
+from factory import db
 bp = Blueprint('project', __name__)
 
 
