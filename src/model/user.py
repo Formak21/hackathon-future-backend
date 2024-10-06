@@ -9,7 +9,7 @@ class User(db.Model):
     __tablename__ = "user"
 
     id: Mapped[int] = mapped_column(primary_key=True, unique=True)
-    email: Mapped[str] = mapped_column(unique=True)
+    email: Mapped[str] = mapped_column(unique=True, nullable=False)
     hashed_password: Mapped[str] = mapped_column(String)
 
     first_name: Mapped[str] = mapped_column(String)
@@ -28,4 +28,4 @@ class User(db.Model):
 
     projects: Mapped[List["UserProjectAssociation"]] = relationship(back_populates='user')
 
-    chats: Mapped[List["Chat"]] = relationship(back_populates='user')
+    messages: Mapped[List["Message"]] = relationship(back_populates='user')

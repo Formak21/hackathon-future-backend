@@ -7,8 +7,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 class UserProjectAssociation(db.Model):
     __tablename__ = "user_project_association"
 
-    user_id: Mapped[int] = mapped_column(ForeignKey('user.id'), primary_key=True)
-    project_id: Mapped[int] = mapped_column(ForeignKey('project.id'), primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('user.id'), primary_key=True, nullable=False)
+    project_id: Mapped[int] = mapped_column(ForeignKey('project.id'), primary_key=True, nullable=False)
 
     role: Mapped[str] = mapped_column(String)
 
