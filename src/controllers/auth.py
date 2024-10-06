@@ -111,7 +111,7 @@ def create_user():
     return response
 
 
-@bp.route('/logout', methods=['POST'])
+@bp.route('/', methods=['DELETE'])
 def logout_user():
     data = request.get_json()
     session_id = request.cookies.get('session_id')

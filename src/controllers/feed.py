@@ -23,7 +23,7 @@ def get_all_feed():
             "text": f.text,
             "url_for_preview": f.url_for_preview,
             "tags": f.tags,
-            "author": user.first_name + ' ' + user.last_name
+            "author_name": user.first_name + ' ' + user.last_name
         }
         resp_feed.append(ext_feed)
     return __jsonResponse({"feeds": resp_feed}, 201)
@@ -49,7 +49,7 @@ def get_feed_by_id(feed_id):
         "author_id": f.user_id,
         "preview_url": f.url_for_preview,
         "tags": f.tags,
-        "author": user.first_name + ' ' + user.last_name
+        "author_name": user.first_name + ' ' + user.last_name
     }
     return __jsonResponse(ext_feed, 400)
 

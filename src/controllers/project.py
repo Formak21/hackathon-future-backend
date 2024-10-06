@@ -48,7 +48,7 @@ def get_project_by_id(project_id):
     data["your_role"] = user_role
 
     if user_role == "org":
-        pr_role = ["head", "activist", "volonteer"]
+        pr_role = ["head", "activist", "volonteer", "org"]
 
         for role in pr_role:
             pr_user_role = db.session.execute(db.select(UserProjectAssociation).filter_by(prokect_id=project_id,
