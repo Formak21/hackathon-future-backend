@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 
-from src.factory import app, db
+from factory import app, db
+from controllers import user, auth
 
 if __name__ == "__main__":
 
     with app.app_context():
-        from src.model import User, Session
+        from model import User, Session
 
         db.create_all()
 
         db.session.commit()
 
-        users = db.session.scalars(db.select(User))
-
-        for user in users:
-            print(user)
+    app.register_blueprint(auth.bp, url_prefix='/api/auth')
+    app.register_blueprint(user.bp, url_prefix='/api/user')
+    app.run(port=5000, host="0.0.0.0")
