@@ -1,9 +1,9 @@
-from src.factory import dbModel
+from src.factory import db
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
-class Session(dbModel):
+class Session(db.Model):
     __tablename__ = "session"
 
     id: Mapped[str] = mapped_column(String, unique=True, primary_key=True, nullable=False)

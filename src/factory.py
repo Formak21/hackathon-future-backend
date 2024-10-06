@@ -9,4 +9,3 @@ class Base(DeclarativeBase):
     pass
 
 db = SQLAlchemy(app, model_class=Base)
-dbModel = db.Model

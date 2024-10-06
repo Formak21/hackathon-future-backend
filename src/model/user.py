@@ -1,10 +1,10 @@
-from src.factory import dbModel
+from src.factory import db
 from typing import List, Optional
 from sqlalchemy import String, ARRAY
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
-class User(dbModel):
+class User(db.Model):
     __tablename__ = "user"
 
     id: Mapped[int] = mapped_column(primary_key=True)
