@@ -23,14 +23,14 @@ class Project:
         self.orgs = []  # list of Users
         self.experts = []  # list of Users
         self.volonteers = []  # list of Users
-        self.short_info = ""
+        self.short_info = "" #o
         self.goals = ""
-        self.contacts = ""
-        self.requirements = ""
+        self.contacts = "" #o
+        self.requirements = "" #o
         self.tags = []  # list of strings
         self.region = ""
-        self.format = ""
-        self.url_for_preview = ""
+        self.format = "" #o
+        self.url_for_preview = "" #o
         self.docs = []
 
 
