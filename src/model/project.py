@@ -36,4 +36,4 @@ class Project(db.Model):
 
     users: Mapped[List["UserProjectAssociation"]] = relationship(back_populates='project')
 
-    feed: Mapped["Feed"] = relationship(back_populates="project")
+    # feed: Mapped["Feed"] = relationship(back_populates="project")

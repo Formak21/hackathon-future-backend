@@ -1,6 +1,7 @@
 from typing import List, Optional
 from factory import db
-from sqlalchemy import String, ForeignKey, ARRAY
+from datetime import datetime
+from sqlalchemy import String, ForeignKey, ARRAY, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
@@ -17,5 +18,7 @@ class Feed(db.Model):
 
     tags: Mapped[List[str]] = mapped_column(ARRAY(String))
 
-    project_id: Mapped[int] = mapped_column(ForeignKey("project.id"))
-    project: Mapped["Project"] = relationship(back_populates="feed")
+    sent_time: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
+
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    user: Mapped["User"] = relationship(back_populates="feed")

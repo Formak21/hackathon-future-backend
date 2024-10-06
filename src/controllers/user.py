@@ -79,12 +79,16 @@ def update_user():
         return __jsonResponse("user unauthorized", 401)
     user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one()
 
-    user.first_name = data['first_name']
-    user.mid_name = data['mid_name']
-    user.last_name = data['last_name']
-    user.tags = data['tags']
-    user.email = data['email']
-    user.info = data['info']
+    if not data.get('photo_url'):
+        return __jsonResponse("photo mne dai", 418)
+
+    user.photo_url = data.get('photo_url') or user.photo_url
+    user.first_name = data['first_name'] or user.first_name
+    user.mid_name = data['mid_name'] or user.mid_name
+    user.last_name = data['last_name'] or user.last_name
+    user.tags = data['tags'] or user.tags
+    user.email = data['email'] or user.email
+    user.info = data['info'] or user.info
 
     db.session.commit()
     # Логика создания нового пользователя

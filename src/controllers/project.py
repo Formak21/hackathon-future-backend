@@ -9,9 +9,6 @@ bp = Blueprint('project', __name__)
 def get_all_projects():
     req_session_id = request.cookies.get('session_id')
     authorized, user_id = __check_user_authtorized(req_session_id)
-    if not authorized:
-        return __jsonResponse("user authorized", 401)
-
     user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one()
 
     user_role = user.role
@@ -60,7 +57,6 @@ def get_project_by_id(project_id):
                 map(lambda user: db.session.execute(db.select(User).filter_by(id=user.id)).scalar_one(), pr_user_role))
             data[role] = head_users
         return __jsonResponse(data, 200)
-
 
     if user_role == "expert":
         pr_role = ["head", "activist", "expert", "partners", "volonteer"]
@@ -121,8 +117,8 @@ def get_project_by_id(project_id):
     return __jsonResponse(data, 200)
 
 
-@bp.route('/`', methods=['PUT'])
-def update_poject():
+@bp.route('/', methods=['PUT'])
+def update_project():
     data = request.get_json()
     if not data.get("id"):
         return jsonify({"error": "id mne dai"}, 418)
@@ -142,7 +138,7 @@ def update_poject():
 
     project = db.session.execute(db.select(Project).filter_by(id=project_id)).scalar_one()
 
-    project.title = data.get("id") or project.title
+    project.title = data.get("title") or project.title
     project.goals = data.get("goals") or project.goals
     project.region = data.get("region") or project.region
     project.short_info = data.get("short_info") or project.short_info
@@ -158,7 +154,40 @@ def update_poject():
     return __jsonResponse("project updated", 200)
 
 
-@bp.route('/my', methods=['POST'])
+@bp.route('/', methods=['POST'])
+def create_project():
+    data = request.get_json()
+
+    req_session_id = request.cookies.get('session_id')
+    authorized, user_id = __check_user_authtorized(req_session_id)
+
+    if not authorized:
+        return __jsonResponse("user unauthorized", 401)
+    user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one()
+
+    required = ["title", "goals", "region", "contacts", "docs", "tags"]
+    for r in required:
+        if not data.get(r):
+            return __jsonResponse(f"field {data.get(r)} required", 400)
+
+    project = Project()
+    project.title = data.get("title")
+    project.goals = data.get("goals")
+    project.region = data.get("region")
+    project.short_info = data.get("short_info") or ""
+    project.contacts = data.get("contacts") or ""
+    project.requirements = data.get("requirements") or ""
+    project.format = data.get("format") or ""
+    project.url_for_preview = data.get("url_for_preview") or ""
+    project.tags = data.get("tags")
+    project.docs = data.get("docs")
+
+    db.session.add(project)
+    db.session.commit()
+    return __jsonResponse("project updated", 200)
+
+
+@bp.route('/my', methods=['GET'])
 def get_my_projects():
     data = request.get_json()
 
@@ -196,6 +225,7 @@ def get_my_projects():
     data["project"] = projects
     return __jsonResponse(data, 200)
 
+
 def __check_user_authtorized(req_session_id):
     try:
         session = db.session.execute(db.select(Session).filter_by(session_id=req_session_id)).scalar_one()
@@ -203,6 +233,7 @@ def __check_user_authtorized(req_session_id):
         return False, None
 
     return True, session.user_id
+
 
 def __jsonResponse(resp: dict or str, code: int):
     if isinstance(resp, str):
