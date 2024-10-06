@@ -5,7 +5,7 @@ from controllers import user, auth, project
 
 if __name__ == "__main__":
     with app.app_context():
-        from model import User, Session, Project, UserProjectAssociation
+        from model import User, Session, Project, UserProjectAssociation, Feed, Chat
 
         db.create_all()
         db.session.commit()
