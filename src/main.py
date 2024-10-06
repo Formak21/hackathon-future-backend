@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from src.factory import app, Base, db
+from src.factory import app, db
 
 if __name__ == "__main__":
 
