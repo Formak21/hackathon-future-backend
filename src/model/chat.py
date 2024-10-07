@@ -18,7 +18,7 @@ class Chat(db.Model):
     __tablename__ = "chat"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    title: Mapped[Optional[str]] = mapped_column(String)
+    title: Mapped[Optional[str]] = mapped_column(String, default="")
 
     users: Mapped[List["UserChatAssociation"]] = relationship(back_populates='chat')
     messages: Mapped[List["Message"]] = relationship(back_populates='chat')
