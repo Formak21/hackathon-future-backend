@@ -92,10 +92,16 @@ def create_user():
 
     hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
-    user = User(first_name=first_name, mid_name=mid_name,
-                        last_name=last_name, email=email,
-                        hashed_password=(hashed_password.decode('utf-8')), role=role, info="",
-                        tags=[], photo_url=photo_url, phone=phone)
+    user = User(first_name=first_name,
+                mid_name=mid_name,
+                last_name=last_name,
+                email=email,
+                hashed_password=(hashed_password.decode('utf-8')),
+                role=role,
+                info="",
+                tags=[],
+                photo_url=photo_url,
+                phone=phone)
     db.session.add(user)
     db.session.commit()
 
