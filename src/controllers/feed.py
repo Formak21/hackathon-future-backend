@@ -53,7 +53,7 @@ def get_feed_by_id(feed_id):
         "sent_time": f.sent_time,
         "author_name": user.first_name + ' ' + user.last_name
     }
-    return __jsonResponse(ext_feed, 400)
+    return __jsonResponse(ext_feed, 200)
 
 
 @bp.route('/', methods=['PUT'])

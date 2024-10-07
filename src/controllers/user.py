@@ -25,13 +25,6 @@ def get_user():
         "phone":user.phone
     }
     return __jsonResponse(resp_user, 200)
-    # return make_response(jsonify(resp_user), 200)
-
-    # project = user = db.session.execute(db.select(Project).filter_by(id=project_id)).scalar_one()
-
-    # if user.id in project.head:
-    #     if search_user_id
-    #
 
 @bp.route('/get-user/<int:search_user_id>', methods=['GET'])  # разные поля отдаются по-разному
 def get_user_by_id(search_user_id):
