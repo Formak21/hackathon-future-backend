@@ -34,7 +34,7 @@ class User(db.Model):
 
     messages: Mapped[List["Message"]] = relationship(back_populates='user')
 
-    bids: Mapped[List["Bid"]] = relationship(back_populates='user')
+    #bids: Mapped[List["Bid"]] = relationship(back_populates='user')
 
     def __dict__(self):
         return {"id": self.id,
