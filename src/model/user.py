@@ -30,7 +30,7 @@ class User(db.Model):
 
     #chats: Mapped[List["UserChatAssociation"]] = relationship(back_populates='user')
 
-    feed: Mapped["Feed"] = relationship(back_populates="user")
+    #feed: Mapped["Feed"] = relationship(back_populates="user")
 
     #messages: Mapped[List["Message"]] = relationship(back_populates='user')
 
