@@ -18,9 +18,13 @@ class Chat(db.Model):
     __tablename__ = "chat"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-
     title: Mapped[Optional[str]] = mapped_column(String)
 
     users: Mapped[List["UserChatAssociation"]] = relationship(back_populates='chat')
-
     messages: Mapped[List["Message"]] = relationship(back_populates='chat')
+
+    def __dict__(self):
+        return {"id": self.id,
+                "title": self.title,
+                "messages": [dict(message) for message in self.messages],
+                "users": [dict(user) for user in self.users]}

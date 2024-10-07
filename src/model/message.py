@@ -4,6 +4,7 @@ from factory import db
 from sqlalchemy import String, ForeignKey, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+
 class Message(db.Model):
     __tablename__ = "message"
 
@@ -19,3 +20,12 @@ class Message(db.Model):
     data: Mapped[str] = mapped_column(String)
 
     sent_time: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
+
+    def __dict__(self):
+        return {"id": self.id,
+                "type": self.type,
+                "data": self.data,
+                "sent_time": self.sent_time,
+                "user_id": self.user_id,
+                "user_name": self.user.first_name + ' ' + self.user.last_name
+                }
