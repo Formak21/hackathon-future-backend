@@ -11,5 +11,5 @@ class Bid(db.Model):
     project_id: Mapped[int] = mapped_column(ForeignKey('project.id'), primary_key=True, nullable=False)
     status: Mapped[str] = mapped_column(String)
     role: Mapped[str] = mapped_column(String)
-    user: Mapped["User"] = relationship(back_populates='projects')
-    project: Mapped["Project"] = relationship(back_populates='users')
+    user: Mapped["User"] = relationship(back_populates='bid')
+    project: Mapped["Project"] = relationship(back_populates='bid')
