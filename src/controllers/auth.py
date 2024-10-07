@@ -4,6 +4,7 @@ from flask import Blueprint, jsonify, request, make_response
 
 from model import User, Session
 from factory import db
+
 bp = Blueprint('auth-reg', __name__)
 
 
@@ -29,7 +30,8 @@ def auth_user():
     if not data.get('password'):
         return __jsonResponse({"error": "Password is required"}, 400)
     try:
-        user = db.session.execute(db.select(User).filter_by(email=email)).scalar_one()  # вот тут нам надо чтобы мы чекали хэши!!! TODO
+        user = db.session.execute(
+            db.select(User).filter_by(email=email)).scalar_one()  # вот тут нам надо чтобы мы чекали хэши!!! TODO
     except:
         return __jsonResponse({"error": "user with this email does not exist"}, 403)
     correct = bcrypt.checkpw(password.encode(), user.hashed_password.encode())
@@ -61,7 +63,6 @@ def create_user():
     phone = data.get('phone')
     role = "activist"
 
-
     if not data.get('mid_name'):
         mid_name = "нету"
 
@@ -77,14 +78,13 @@ def create_user():
     if not data.get('phone'):
         return __jsonResponse("Email is required", 400)
 
-
     if not data.get('password'):
         return __jsonResponse("Password is required", 400)
 
     try:
         user = db.session.execute(db.select(User).filter_by(email=email)).scalar_one()
     except:
-        user=False
+        user = False
         print("полный газ")
 
     if user:
@@ -133,6 +133,7 @@ def logout_user():
 
     return response
 
+
 def __check_user_authtorized(req_session_id):
     try:
         session = db.session.execute(db.select(Session).filter_by(session_id=req_session_id)).scalar_one()
@@ -140,6 +141,7 @@ def __check_user_authtorized(req_session_id):
         return False, None
 
     return True, session.user_id
+
 
 def __jsonResponse(resp: dict or str, code: int):
     if isinstance(resp, str):

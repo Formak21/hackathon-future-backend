@@ -28,11 +28,11 @@ class User(db.Model):
 
     projects: Mapped[List["UserProjectAssociation"]] = relationship(back_populates='user')
 
-    chats: Mapped[List["UserChatAssociation"]] = relationship(back_populates='user')
+    #chats: Mapped[List["UserChatAssociation"]] = relationship(back_populates='user')
 
     feed: Mapped["Feed"] = relationship(back_populates="user")
 
-    messages: Mapped[List["Message"]] = relationship(back_populates='user')
+    #messages: Mapped[List["Message"]] = relationship(back_populates='user')
 
     #bids: Mapped[List["Bid"]] = relationship(back_populates='user')
 
