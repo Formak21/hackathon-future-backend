@@ -15,7 +15,7 @@ def auth_user():
     if data.get('session_id'):
         exist, resp_user_id = __check_user_authtorized(req_session_id)
         if exist:
-            response = make_response(jsonify({"success": "User already authorized"}), 200)
+            response = make_response(__jsonResponse({"success": "User already authorized"}), 200)
             response.set_cookie("session_id", req_session_id, samesite="lax", httponly=True)
 
             return response
@@ -24,18 +24,18 @@ def auth_user():
     password = data.get('password')
 
     if not data.get('email'):
-        return jsonify({"error": "Email is required"}, 400)
+        return __jsonResponse({"error": "Email is required"}, 400)
 
     if not data.get('password'):
-        return jsonify({"error": "Password is required"}, 400)
+        return __jsonResponse({"error": "Password is required"}, 400)
     try:
         user = db.session.execute(db.select(User).filter_by(email=email)).scalar_one()  # вот тут нам надо чтобы мы чекали хэши!!! TODO
     except:
-        return jsonify({"error": "user with this email does not exist"}, 403)
+        return __jsonResponse({"error": "user with this email does not exist"}, 403)
     correct = bcrypt.checkpw(password.encode(), user.hashed_password.encode())
 
     if not correct:
-        return jsonify({"error": "Password or Email is wrong"}, 403)
+        return __jsonResponse({"error": "Password or Email is wrong"}, 403)
     session_id = str(uuid.uuid1())
 
     db.session.add(Session(user_id=user.id, session_id=session_id))
