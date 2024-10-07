@@ -23,6 +23,7 @@ def get_all_feed():
             "text": f.text,
             "url_for_preview": f.url_for_preview,
             "tags": f.tags,
+            "sent_time": f.sent_time,
             "author_name": user.first_name + ' ' + user.last_name
         }
         resp_feed.append(ext_feed)
@@ -49,6 +50,7 @@ def get_feed_by_id(feed_id):
         "author_id": f.user_id,
         "preview_url": f.url_for_preview,
         "tags": f.tags,
+        "sent_time": f.sent_time,
         "author_name": user.first_name + ' ' + user.last_name
     }
     return __jsonResponse(ext_feed, 400)
@@ -121,3 +123,5 @@ def __jsonResponse(resp: dict or str, code: int):
         resp = {"info": resp}
 
     return make_response(jsonify(resp), code)
+
+
