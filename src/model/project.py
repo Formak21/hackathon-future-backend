@@ -35,4 +35,4 @@ class Project(db.Model):
     docs: Mapped[List[str]] = mapped_column(ARRAY(String))
 
     users: Mapped[List["UserProjectAssociation"]] = relationship(back_populates='project')
-    bid: Mapped[List["Bid"]] = relationship(back_populates='project')
+    bids: Mapped[List["Bid"]] = relationship(back_populates='project')
